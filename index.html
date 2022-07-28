@@ -12,9 +12,10 @@
 <body>
     <div id="app" class="antialiased">
         <div id="background" class="w-screen h-screen bg-fixed bg-cover bg-center"
-            v-bind:style="{'background-image': 'url(' + background + ')'}">
+            v-bind:style="{'background-image': 'url(' + backgroundImage + ')'}">
             <div id="background-mask" class="w-full h-full backdrop-blur">
                 <div class="w-full h-full flex flex-col gap-10">
+                    <!-- Header -->
                     <div id="header" class="w-full h-24 px-8 flex justify-end">
                         <button v-if="locked" class="text-5xl" v-on:click="locked=false">
                             🔓
@@ -22,11 +23,16 @@
                         <button v-else class="text-5xl" v-on:click="locked=true">
                             🔒
                         </button>
+                        <button class="text-5xl" v-on:click="refreshBackground">
+                            👋
+                        </button>
                         <button class="text-5xl">
                             ⚙️
                         </button>
                     </div>
+                    <!-- Content -->
                     <div id="content" class="container mx-auto grow">
+                        <!-- Poker Table -->
                         <div id="poker-table" class="flex flex-wrap gap-6">
                             <div v-for="(site, index) in sites" :key="index"
                                 v-bind:style="{'background-image': 'url('+site.cover+')'}" id="poker-card"
@@ -45,12 +51,14 @@
                                     </div>
                                 </button>
                             </div>
+                            <!-- Add Button -->
                             <div id="add-button"
                                 class="w-56 h-80 flex justify-center items-center rounded-2xl bg-white/30 transition ease-in-out hover:shadow-2xl hover:shadow-slate-500/50 hover:scale-105"
-                                v-on:click="showAddForm=true">
+                                v-on:click="displayAddForm">
                                 <div class="text-white/50 text-9xl">+</div>
                             </div>
                         </div>
+                        <!-- Add Form -->
                         <div v-if="showAddForm" id="add-form-container"
                             class="fixed top-0 left-0 w-screen h-screen flex justify-center items-center bg-black/70"
                             v-on:click.self="showAddForm=false">
@@ -95,6 +103,7 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Footer -->
                     <div id="footer" class="container mx-auto py-20">
                         <div class="text-right text-white">
                             Copyright © 2022 Mr.Char All rights reserved.
@@ -109,20 +118,40 @@
         const App = {
             data() {
                 return {
-                    background: "https://images.unsplash.com/photo-1557750223-53916b138a90?ixlib=rb-1.2.1&dl=zhimai-zhang-pBg2i0aUOec-unsplash.jpg&q=80&fm=jpg&crop=entropy&cs=tinysrgb",
+                    randomPhotoUrl: "",
+                    backgroundImage: "",
                     locked: true,
                     sites: [],
                     showAddForm: false,
                     addCardFormData: {
                         title: "",
                         url: "",
-                        description: ""
+                        description: "",
+                        cover: ""
                     }
                 }
             },
             methods: {
+                async loadConfig() {
+                    let sites = localStorage.getItem('sites')
+                    this.sites = sites ? JSON.parse(sites) : []
+
+                    let backgroundImage = localStorage.getItem('backgroundImage') || await this.getRandomPhoto()
+                    this.setBackgroundImage(backgroundImage)
+                },
+                async getRandomPhoto() {
+                    this.randomPhotoUrl = (await fetch("https://source.unsplash.com/random")).url
+                    return this.randomPhotoUrl
+                },
+                refreshBackground() {
+                    this.getRandomPhoto().then(url => { this.setBackgroundImage(url) })
+                },
                 open(url) {
                     window.open(url, '_blank')
+                },
+                displayAddForm() {
+                    this.showAddForm = true
+                    this.getRandomPhoto().then((url) => { this.addCardFormData.cover = url })
                 },
                 add() {
                     this.sites.push(this.addCardFormData)
@@ -130,18 +159,22 @@
                     this.addCardFormData = {
                         title: "",
                         url: "",
-                        description: ""
+                        description: "",
+                        cover: ""
                     }
                     this.showAddForm = false
                 },
                 remove(index) {
                     this.sites.splice(index, 1)
                     localStorage.setItem('sites', JSON.stringify(this.sites));
+                },
+                setBackgroundImage(url) {
+                    this.backgroundImage = url
+                    localStorage.setItem('backgroundImage', url)
                 }
             },
             beforeMount() {
-                let sites = localStorage.getItem('sites')
-                this.sites = sites ? JSON.parse(sites) : []
+                this.loadConfig()
             },
         }
         Vue.createApp(App).mount("#app")
