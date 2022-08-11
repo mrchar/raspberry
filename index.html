@@ -66,10 +66,12 @@
                             <!-- Add Form Container -->
                             <div class="h-80 max-w-6xl max-h-max bg-white flex gap-2 scale-150 bg-transparent">
                                 <!-- Add Demo -->
-                                <!-- TODO: 调整 Demo 位置 -->
                                 <div id="add-card-demo"
                                     class="w-56 shrink-0  origin-center rounded-2xl bg-white bg-cover bg-center bg-transparent transition ease-in-out hover:shadow-2xl hover:shadow-slate-500/50"
                                     v-bind:style="{'background-image': 'url('+addCardFormData.cover+')'}">
+                                    <button class="fixed top-2 right-2 text-2xl" v-on:click="refreshDemoCardBackground">
+                                        👋
+                                    </button>
                                     <button class="w-full h-full flex flex-col">
                                         <div id="add-card-demo-header" class="w-full h-1/5 flex justify-end">
                                             <div v-if="!locked" class="px-6 py-5 text-white text-2xl font-semibold">✕
@@ -165,9 +167,12 @@
                 open(url) {
                     window.open(url, '_blank')
                 },
+                refreshDemoCardBackground() {
+                    this.getRandomPhoto().then((url) => { this.addCardFormData.cover = url })
+                },
                 displayAddForm() {
                     this.showAddForm = true
-                    this.getRandomPhoto().then((url) => { this.addCardFormData.cover = url })
+                    this.refreshDemoCardBackground()
                 },
                 add() {
                     this.sites.push(this.addCardFormData)
