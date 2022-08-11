@@ -64,12 +64,11 @@
                             class="fixed top-0 left-0 w-screen h-screen flex justify-center items-center bg-black/70"
                             v-on:click.self="showAddForm=false">
                             <!-- Add Form Container -->
-                            <div class="max-w-6xl max-h-max bg-white rounded-2xl flex">
+                            <div class="h-80 max-w-6xl max-h-max bg-white flex gap-2 scale-150 bg-transparent">
                                 <!-- Add Demo -->
                                 <!-- TODO: 调整 Demo 位置 -->
                                 <div id="add-card-demo"
-                                    class="w-56 h-80 scale-150 origin-center rounded-2xl bg-white bg-cover bg-center transition ease-in-out hover:shadow-2xl hover:shadow-slate-500/50"
-                                    v-if="addCardFormData.cover"
+                                    class="w-56 shrink-0  origin-center rounded-2xl bg-white bg-cover bg-center bg-transparent transition ease-in-out hover:shadow-2xl hover:shadow-slate-500/50"
                                     v-bind:style="{'background-image': 'url('+addCardFormData.cover+')'}">
                                     <button class="w-full h-full flex flex-col">
                                         <div id="add-card-demo-header" class="w-full h-1/5 flex justify-end">
@@ -87,7 +86,7 @@
                                 </div>
                                 <!-- Add Form -->
                                 <div id="add-form"
-                                    class="px-36 py-24 flex flex-col gap-6 font-semibold text-xl shadow-2xl shadow-white/50">
+                                    class="w-full h-full grow pl-10 pr-20 py-12 flex flex-col gap-6 font-semibold bg-white rounded-2xl shadow-2xl shadow-white/50">
                                     <div class="flex gap-4">
                                         <label for="title" class="p-2 text-gray-600">标题:</label>
                                         <div class="rounded-lg transition ease-in-out hover:shadow-lg">
