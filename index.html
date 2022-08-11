@@ -17,16 +17,17 @@
                 <div class="w-full h-full flex flex-col gap-10">
                     <!-- Header -->
                     <div id="header" class="w-full h-24 px-8 flex justify-end">
-                        <button v-if="locked" class="text-5xl" v-on:click="locked=false">
+                        <button v-if="locked" class="text-5xl transition ease-in-out hover:scale-125"
+                            v-on:click="locked=false">
                             🔓
                         </button>
-                        <button v-else class="text-5xl" v-on:click="locked=true">
+                        <button v-else class="text-5xl transition ease-in-out hover:scale-125" v-on:click="locked=true">
                             🔒
                         </button>
-                        <button class="text-5xl" v-on:click="refreshBackground">
+                        <button class="text-5xl transition ease-in-out hover:scale-125" v-on:click="refreshBackground">
                             👋
                         </button>
-                        <button class="text-5xl">
+                        <button class="text-5xl transition ease-in-out hover:scale-125">
                             ⚙️
                         </button>
                     </div>
@@ -69,7 +70,8 @@
                                 <div id="add-card-demo"
                                     class="w-56 shrink-0  origin-center rounded-2xl bg-white bg-cover bg-center bg-transparent transition ease-in-out hover:shadow-2xl hover:shadow-slate-500/50"
                                     v-bind:style="{'background-image': 'url('+addCardFormData.cover+')'}">
-                                    <button class="fixed top-2 right-2 text-2xl" v-on:click="refreshDemoCardBackground">
+                                    <button class="fixed top-2 right-2 text-2xl transition ease-in-out hover:scale-125"
+                                        v-on:click="refreshDemoCardBackground">
                                         👋
                                     </button>
                                     <button class="w-full h-full flex flex-col">
@@ -114,7 +116,8 @@
                                         </div>
                                     </div>
                                     <div class="w-full px-8">
-                                        <button class="w-full bg-indigo-400 p-2 rounded-lg text-white"
+                                        <button
+                                            class="w-full bg-indigo-400 hover:bg-indigo-500 hover:shadow-lg p-2 rounded-lg text-white transition ease-in-out hover:scale-105"
                                             v-on:click="add">添加</button>
                                     </div>
                                 </div>
